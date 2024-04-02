@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 // Emits
-import {nextTick, PropType, ref, useSlots} from "vue";
+import {computed, nextTick, PropType, ref, useSlots} from "vue";
 import {LktObject} from "lkt-ts-interfaces";
 
 // Slots
@@ -15,6 +15,8 @@ const props = defineProps({
     filters: {type: Object as PropType<LktObject>, default: () => ({})},
     label: {type: String, default: ''},
     useResourceSlot: {type: String, default: ''},
+    addCreateButton: {type: Boolean, default: false},
+    createButtonText: {type: String, default: ''},
 });
 
 const Page = ref(props.page),
@@ -24,6 +26,8 @@ const Page = ref(props.page),
     paginator = ref(null),
     value = ref([]);
 
+const emit = defineEmits(['create', 'results']);
+
 
 const onResults = (r: any) => {
         //@ts-ignore
@@ -32,12 +36,22 @@ const onResults = (r: any) => {
         firstLoadReady.value = true;
         //@ts-ignore
         value.value = items.value.map((z: LktObject) => z.value);
+        emit('results', r);
     },
     onLoading = () => nextTick(() => loading.value = true),
     doRefresh = () => {
         //@ts-ignore
         paginator.value.doRefresh();
+    },
+    onCreateClick = () => {
+        emit('create');
     };
+
+const finalResourceSlot = computed(() => {
+    if (props.useResourceSlot) return props.useResourceSlot;
+    if (props.resource) return props.resource;
+    return '';
+})
 
 defineExpose({
     doRefresh
@@ -69,13 +83,17 @@ defineExpose({
                 multiple
                 read-mode
                 :label="label"
-                :use-resource-slot="useResourceSlot"
+                :use-resource-slot="finalResourceSlot"
                 v-model="value"
                 :options="items"/>
         </div>
 
         <div class="lkt-select-page-empty" v-if="!loading && items.length === 0">
             {{noResultsText}}
+        </div>
+
+        <div class="lkt-select-page-buttons" v-if="!loading && addCreateButton">
+            <lkt-button @click="onCreateClick">{{createButtonText}}</lkt-button>
         </div>
 
         <lkt-paginator

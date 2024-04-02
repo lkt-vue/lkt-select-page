@@ -1,4 +1,4 @@
-export { z as default };
-declare namespace z {
+export { G as default };
+declare namespace G {
     function install(e: any): void;
 }
