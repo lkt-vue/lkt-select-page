@@ -7,16 +7,27 @@ import {LktObject} from "lkt-ts-interfaces";
 const slots = useSlots();
 
 // Props
-const props = defineProps({
-    page: {type: Number, default: 1},
-    resource: {type: String, default: ''},
-    noResultsText: {type: String, default: 'No results'},
-    title: {type: String, default: ''},
-    filters: {type: Object as PropType<LktObject>, default: () => ({})},
-    label: {type: String, default: ''},
-    useResourceSlot: {type: String, default: ''},
-    addCreateButton: {type: Boolean, default: false},
-    createButtonText: {type: String, default: ''},
+const props = withDefaults(defineProps<{
+    page: number
+    resource: string
+    noResultsText: string
+    useResourceSlot: string
+    title: string
+    label: string
+    filters: LktObject
+    addCreateButton: boolean
+    createButtonText: string
+    createButtonPalette: string
+}>(), {
+    page: 1,
+    title: '',
+    label: '',
+    resource: '',
+    noResultsText: 'No results',
+    useResourceSlot: '',
+    filters: () => ({}),
+    createButtonText: '',
+    createButtonPalette: '',
 });
 
 const Page = ref(props.page),
@@ -51,7 +62,11 @@ const finalResourceSlot = computed(() => {
     if (props.useResourceSlot) return props.useResourceSlot;
     if (props.resource) return props.resource;
     return '';
-})
+}),
+    displayCreateButton = computed(() => {
+        if (loading.value) return false;
+        return props.addCreateButton;
+    })
 
 defineExpose({
     doRefresh
@@ -92,8 +107,8 @@ defineExpose({
             {{noResultsText}}
         </div>
 
-        <div class="lkt-select-page-buttons" v-if="!loading && addCreateButton">
-            <lkt-button @click="onCreateClick">{{createButtonText}}</lkt-button>
+        <div class="lkt-select-page-buttons" v-if="displayCreateButton">
+            <lkt-button @click="onCreateClick" :palette="createButtonPalette">{{createButtonText}}</lkt-button>
         </div>
 
         <lkt-paginator
