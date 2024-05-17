@@ -59,7 +59,7 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<__
     useResourceSlot: string;
     createButtonText: string;
     createButtonPalette: string;
-}, {}>, {
+}, {}>, Partial<Record<any, (_: {}) => any>> & {
     title?(_: {}): any;
     buttons?(_: {}): any;
     filters?(_: {}): any;

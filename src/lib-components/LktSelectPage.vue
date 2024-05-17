@@ -1,7 +1,9 @@
 <script lang="ts" setup>
-// Emits
-import {computed, nextTick, PropType, ref, useSlots} from "vue";
+import {computed, nextTick, ref, useSlots} from "vue";
 import {LktObject} from "lkt-ts-interfaces";
+
+// Emit
+const emit = defineEmits(['create', 'results']);
 
 // Slots
 const slots = useSlots();
@@ -37,8 +39,6 @@ const Page = ref(props.page),
     paginator = ref(null),
     value = ref([]);
 
-const emit = defineEmits(['create', 'results']);
-
 
 const onResults = (r: any) => {
         //@ts-ignore
@@ -59,14 +59,19 @@ const onResults = (r: any) => {
     };
 
 const finalResourceSlot = computed(() => {
-    if (props.useResourceSlot) return props.useResourceSlot;
-    if (props.resource) return props.resource;
-    return '';
-}),
+        if (props.useResourceSlot) return props.useResourceSlot;
+        if (props.resource) return props.resource;
+        return '';
+    }),
     displayCreateButton = computed(() => {
         if (loading.value) return false;
         return props.addCreateButton;
-    })
+    }),
+    btnSlots = computed((): LktObject => {
+        let r = [];
+        for (let k in slots) if (k.startsWith('btn-')) r.push(k);
+        return r;
+    });
 
 defineExpose({
     doRefresh
@@ -92,7 +97,7 @@ defineExpose({
         </div>
 
         <lkt-loader v-if="loading"/>
-        
+
         <div class="lkt-select-page-items" v-if="!loading">
             <lkt-field-select
                 multiple
@@ -104,11 +109,14 @@ defineExpose({
         </div>
 
         <div class="lkt-select-page-empty" v-if="!loading && items.length === 0">
-            {{noResultsText}}
+            {{ noResultsText }}
         </div>
 
         <div class="lkt-select-page-buttons" v-if="displayCreateButton">
-            <lkt-button @click="onCreateClick" :palette="createButtonPalette">{{createButtonText}}</lkt-button>
+            <lkt-button @click="onCreateClick" :palette="createButtonPalette">{{ createButtonText }}</lkt-button>
+            <template v-for="btn in btnSlots">
+                <slot v-bind:name="btn"/>
+            </template>
         </div>
 
         <lkt-paginator
