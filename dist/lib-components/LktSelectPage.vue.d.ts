@@ -7,6 +7,7 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<__
     title: string;
     label: string;
     filters: LktObject;
+    slotData: LktObject;
     addCreateButton: boolean;
     createButtonText: string;
     createButtonPalette: string;
@@ -18,6 +19,7 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<__
     noResultsText: string;
     useResourceSlot: string;
     filters: () => {};
+    slotData: () => {};
     createButtonText: string;
     createButtonPalette: string;
 }>, {
@@ -33,6 +35,7 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<__
     title: string;
     label: string;
     filters: LktObject;
+    slotData: LktObject;
     addCreateButton: boolean;
     createButtonText: string;
     createButtonPalette: string;
@@ -44,6 +47,7 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<__
     noResultsText: string;
     useResourceSlot: string;
     filters: () => {};
+    slotData: () => {};
     createButtonText: string;
     createButtonPalette: string;
 }>>> & {
@@ -57,6 +61,7 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<__
     resource: string;
     noResultsText: string;
     useResourceSlot: string;
+    slotData: LktObject;
     createButtonText: string;
     createButtonPalette: string;
 }, {}>, Partial<Record<any, (_: {}) => any>> & {

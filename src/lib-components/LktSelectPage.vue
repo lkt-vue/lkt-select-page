@@ -17,6 +17,7 @@ const props = withDefaults(defineProps<{
     title: string
     label: string
     filters: LktObject
+    slotData: LktObject
     addCreateButton: boolean
     createButtonText: string
     createButtonPalette: string
@@ -28,6 +29,7 @@ const props = withDefaults(defineProps<{
     noResultsText: 'No results',
     useResourceSlot: '',
     filters: () => ({}),
+    slotData: () => ({}),
     createButtonText: '',
     createButtonPalette: '',
 });
@@ -105,11 +107,10 @@ defineExpose({
                 :label="label"
                 :use-resource-slot="finalResourceSlot"
                 v-model="value"
-                :options="items"/>
-        </div>
-
-        <div class="lkt-select-page-empty" v-if="!loading && items.length === 0">
-            {{ noResultsText }}
+                :options="items"
+                :empty-value-text="noResultsText"
+                :slot-data="slotData"
+            />
         </div>
 
         <div class="lkt-select-page-buttons" v-if="displayCreateButton">

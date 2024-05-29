@@ -1,4 +1,4 @@
-import { defineComponent as E, useSlots as F, ref as u, computed as v, resolveComponent as p, openBlock as t, createElementBlock as o, unref as f, toDisplayString as g, createCommentVNode as s, renderSlot as k, createBlock as W, createVNode as _, withCtx as j, createTextVNode as q, Fragment as z, renderList as G, nextTick as H } from "vue";
+import { defineComponent as E, useSlots as F, ref as u, computed as v, resolveComponent as c, openBlock as l, createElementBlock as o, unref as p, toDisplayString as B, createCommentVNode as s, renderSlot as f, createBlock as W, createVNode as g, withCtx as j, createTextVNode as q, Fragment as z, renderList as G, nextTick as H } from "vue";
 const I = { class: "lkt-select-page" }, J = { key: 0 }, K = { key: 0 }, M = {
   key: 1,
   class: "lkt-select-page-buttons"
@@ -10,11 +10,8 @@ const I = { class: "lkt-select-page" }, J = { key: 0 }, K = { key: 0 }, M = {
   class: "lkt-select-page-items"
 }, X = {
   key: 5,
-  class: "lkt-select-page-empty"
-}, Y = {
-  key: 6,
   class: "lkt-select-page-buttons"
-}, Z = /* @__PURE__ */ E({
+}, Y = /* @__PURE__ */ E({
   __name: "LktSelectPage",
   props: {
     page: { default: 1 },
@@ -24,69 +21,71 @@ const I = { class: "lkt-select-page" }, J = { key: 0 }, K = { key: 0 }, M = {
     title: { default: "" },
     label: { default: "" },
     filters: { default: () => ({}) },
+    slotData: { default: () => ({}) },
     addCreateButton: { type: Boolean },
     createButtonText: { default: "" },
     createButtonPalette: { default: "" }
   },
   emits: ["create", "results"],
-  setup(c, { expose: C, emit: R }) {
-    const y = R, n = F(), a = c, h = u(a.page), d = u([]), r = u(!0), b = u(!1), B = u(null), m = u([]), S = (e) => {
-      Array.isArray(e) && (d.value = e), r.value = !1, b.value = !0, m.value = d.value.map((l) => l.value), y("results", e);
-    }, V = () => H(() => r.value = !0), T = () => {
-      B.value.doRefresh();
+  setup(d, { expose: C, emit: R }) {
+    const y = R, r = F(), a = d, _ = u(a.page), k = u([]), n = u(!0), b = u(!1), h = u(null), m = u([]), S = (e) => {
+      Array.isArray(e) && (k.value = e), n.value = !1, b.value = !0, m.value = k.value.map((t) => t.value), y("results", e);
+    }, V = () => H(() => n.value = !0), T = () => {
+      h.value.doRefresh();
     }, L = () => {
       y("create");
-    }, P = v(() => a.useResourceSlot ? a.useResourceSlot : a.resource ? a.resource : ""), N = v(() => r.value ? !1 : a.addCreateButton), $ = v(() => {
+    }, P = v(() => a.useResourceSlot ? a.useResourceSlot : a.resource ? a.resource : ""), N = v(() => n.value ? !1 : a.addCreateButton), $ = v(() => {
       let e = [];
-      for (let l in n)
-        l.startsWith("btn-") && e.push(l);
+      for (let t in r)
+        t.startsWith("btn-") && e.push(t);
       return e;
     });
     return C({
       doRefresh: T
-    }), (e, l) => {
-      const A = p("lkt-loader"), U = p("lkt-field-select"), w = p("lkt-button"), D = p("lkt-paginator");
-      return t(), o("section", I, [
-        e.title || f(n).title ? (t(), o("header", J, [
-          e.title ? (t(), o("h2", K, g(e.title), 1)) : s("", !0),
-          f(n).title ? k(e.$slots, "title", { key: 1 }) : s("", !0)
+    }), (e, t) => {
+      const D = c("lkt-loader"), A = c("lkt-field-select"), U = c("lkt-button"), w = c("lkt-paginator");
+      return l(), o("section", I, [
+        e.title || p(r).title ? (l(), o("header", J, [
+          e.title ? (l(), o("h2", K, B(e.title), 1)) : s("", !0),
+          p(r).title ? f(e.$slots, "title", { key: 1 }) : s("", !0)
         ])) : s("", !0),
-        f(n).buttons ? (t(), o("div", M, [
-          k(e.$slots, "buttons")
+        p(r).buttons ? (l(), o("div", M, [
+          f(e.$slots, "buttons")
         ])) : s("", !0),
-        b.value && f(n).filters ? (t(), o("div", O, [
-          k(e.$slots, "filters")
+        b.value && p(r).filters ? (l(), o("div", O, [
+          f(e.$slots, "filters")
         ])) : s("", !0),
-        r.value ? (t(), W(A, { key: 3 })) : s("", !0),
-        r.value ? s("", !0) : (t(), o("div", Q, [
-          _(U, {
+        n.value ? (l(), W(D, { key: 3 })) : s("", !0),
+        n.value ? s("", !0) : (l(), o("div", Q, [
+          g(A, {
             multiple: "",
             "read-mode": "",
             label: e.label,
             "use-resource-slot": P.value,
             modelValue: m.value,
-            "onUpdate:modelValue": l[0] || (l[0] = (i) => m.value = i),
-            options: d.value
-          }, null, 8, ["label", "use-resource-slot", "modelValue", "options"])
+            "onUpdate:modelValue": t[0] || (t[0] = (i) => m.value = i),
+            options: k.value,
+            "empty-value-text": e.noResultsText,
+            "slot-data": e.slotData
+          }, null, 8, ["label", "use-resource-slot", "modelValue", "options", "empty-value-text", "slot-data"])
         ])),
-        !r.value && d.value.length === 0 ? (t(), o("div", X, g(e.noResultsText), 1)) : s("", !0),
-        N.value ? (t(), o("div", Y, [
-          _(w, {
+        N.value ? (l(), o("div", X, [
+          g(U, {
             onClick: L,
             palette: e.createButtonPalette
           }, {
             default: j(() => [
-              q(g(e.createButtonText), 1)
+              q(B(e.createButtonText), 1)
             ]),
             _: 1
           }, 8, ["palette"]),
-          (t(!0), o(z, null, G($.value, (i) => k(e.$slots, i)), 256))
+          (l(!0), o(z, null, G($.value, (i) => f(e.$slots, i)), 256))
         ])) : s("", !0),
-        _(D, {
+        g(w, {
           ref_key: "paginator",
-          ref: B,
-          modelValue: h.value,
-          "onUpdate:modelValue": l[1] || (l[1] = (i) => h.value = i),
+          ref: h,
+          modelValue: _.value,
+          "onUpdate:modelValue": t[1] || (t[1] = (i) => _.value = i),
           resource: e.resource,
           filters: e.filters,
           onResults: S,
@@ -95,11 +94,11 @@ const I = { class: "lkt-select-page" }, J = { key: 0 }, K = { key: 0 }, M = {
       ]);
     };
   }
-}), ee = {
-  install: (c) => {
-    c.component("lkt-select-page") === void 0 && c.component("lkt-select-page", Z);
+}), x = {
+  install: (d) => {
+    d.component("lkt-select-page") === void 0 && d.component("lkt-select-page", Y);
   }
 };
 export {
-  ee as default
+  x as default
 };

@@ -1,4 +1,4 @@
-export { ee as default };
-declare namespace ee {
-    function install(c: any): void;
+export { x as default };
+declare namespace x {
+    function install(d: any): void;
 }
